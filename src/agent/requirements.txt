@@ -1,0 +1,16 @@
+openai
+azure-identity
+azure-storage-queue
+azure-monitor-opentelemetry
+PyYAML
+accelerate
+azure-ai-inference
+torch
+transformers
+pytest
+pytest-mock
+sentence_transformers
+onnxruntime-gpu
+tiktoken
+docopt
+python-dotenv

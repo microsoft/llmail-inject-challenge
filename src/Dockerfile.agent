@@ -1,0 +1,23 @@
+# Use the official Python image
+FROM python:3.12-slim
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Add requirements and install dependencies
+COPY ./src/agent/requirements.txt /app/requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the source code into the container
+COPY ./src/api /app/api
+COPY ./src/agent /app/agent
+COPY ./src/utils /app/utils
+
+# List directory contents
+RUN ls -la /app
+
+# Set the entry point for the container to run the Python script
+ENTRYPOINT ["/usr/local/bin/python3", "/app/agent"]
+
+# Default argument for CMD, which can be overridden
+CMD ["azure"]

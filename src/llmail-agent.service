@@ -1,0 +1,15 @@
+# This should be placed in /etc/systemd/system/llmail-agent.service
+# Then you can run `systemctl daemon-reload` and `systemctl start llmail-agent`
+# If you want it to start after boot, run `systemctl enable llmail-agent`
+[Unit]
+Description=Runs the llmail agent
+After=multi-user.target
+
+[Service]
+Type=simple
+EnvironmentFile=./llmail-inject/src/.env
+ExecStart=/usr/bin/bash -c 'conda activate llmail && python3 /share/projects/llmail-inject-satml/agent azure enable_task_tracker=True'
+
+# Persists across reboots 
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,7 @@
+-r src/agent/requirements.txt
+-r src/api/requirements.txt
+-r src/server/requirements.txt
+pytest
+pytest-cov
+pytest-mock
+pytest-asyncio

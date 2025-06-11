@@ -1,0 +1,25 @@
+{
+  "version": "2.0",
+  "extensionBundle": {
+    "id": "Microsoft.Azure.Functions.ExtensionBundle",
+    "version": "[4.*, 5.0.0)"
+  },
+  "extensions": {
+    "http": {
+      "routePrefix": "",
+      "hsts": {
+        "isEnabled": true,
+        "includeSubDomains": true,
+        "maxAge": "365"
+      }
+    },
+    "queues": {
+      "maxPollingInterval": "00:00:02",
+      "visibilityTimeout": "00:00:30",
+      "batchSize": 16,
+      "maxDequeueCount": 3,
+      "messageEncoding": "none"
+    }
+  },
+  "telemetryMode": "OpenTelemetry"
+}

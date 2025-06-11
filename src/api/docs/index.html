@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LLMail Inject API Documentation - SaTML 2024</title>
+    
+    <!-- External Swagger UI stylesheet -->
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/swagger-ui-dist/swagger-ui.css" />
+    
+    <!-- Google Font for a better look -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <!-- Custom Styles -->
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f7f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        #swagger-ui {
+            margin-top: 30px;
+            padding: 20px;
+        }
+
+        footer {
+            background-color: #004a70;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Swagger UI Container -->
+    <div id="swagger-ui"></div>
+
+    <!-- Custom Footer -->
+    <footer>
+        © 2024 LLMail Inject - SaTML Competition
+    </footer>
+
+    <!-- Swagger UI Scripts -->
+    <script src="https://unpkg.com/swagger-ui-dist/swagger-ui-bundle.js"></script>
+    <script src="https://unpkg.com/swagger-ui-dist/swagger-ui-standalone-preset.js"></script>
+    <script>
+        // Adding a timestamp to the URL to prevent caching
+        const openApiSpecUrl = 'openapi_spec.yaml?v=' + new Date().getTime();
+
+        const ui = SwaggerUIBundle({
+            url: openApiSpecUrl,  // Appended timestamp to ensure latest version
+            dom_id: '#swagger-ui',
+            deepLinking: true,
+            presets: [
+                SwaggerUIBundle.presets.apis,
+                SwaggerUIStandalonePreset
+            ],
+            layout: "BaseLayout",  // Use the base layout instead of the standalone
+            docExpansion: "none",  // Collapse sections by default
+            defaultModelsExpandDepth: -1,  // Disable model expansion by default
+            showExtensions: false,  // Remove dropdowns
+            showCommonExtensions: false  // Hide common extensions
+        })
+    </script>
+</body>
+
+</html>

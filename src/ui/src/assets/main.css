@@ -1,0 +1,206 @@
+@import './base.css';
+
+#app {
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--color-primary-dark);
+}
+
+input[type="text"] {
+  width: calc(100% - 1em);
+  padding: 0.5em;
+  margin: 0.5em 0;
+  font-size: 1.2rem;
+  border-radius: 5px;
+  border: none;
+  color: var(--color-text);
+  background-color: var(--color-bg-dark);
+  box-shadow: 1px 1px 5px var(--color-shadow);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+select {
+  width: 100%;
+  padding: 0.5em;
+  margin: 0.5em 0;
+  font-size: 1.2rem;
+  border-color: var(--color-border);
+  border-radius: 5px;
+  color: var(--color-text);
+  background-color: var(--color-bg-dark);
+  box-shadow: 1px 1px 5px var(--color-shadow);
+}
+
+textarea {
+  width: calc(100% - 1em);
+  padding: 0.5em;
+  margin: 0.5em 0;
+  font-size: 1.2rem;
+  border-radius: 5px;
+  border-color: var(--color-border);
+  color: var(--color-text);
+  background-color: var(--color-bg-dark);
+  box-shadow: 1px 1px 5px var(--color-shadow);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+button {
+  width: 100%;
+  padding: 0.5em 1em;
+  margin: 0.5em 0;
+  font-size: 1.2rem;
+  border-radius: 5px;
+  border: 1px solid var(--color-primary-light);
+  background-color: var(--color-primary);
+  box-shadow: 5px 5px 10px var(--color-shadow);
+  color: #fff;
+  cursor: pointer;
+}
+
+button:hover,
+button:active {
+  background-color: var(--color-primary-dark);
+}
+
+button[disabled] {
+  background-color: #ccc;
+  border-color: #aaa;
+  color: #333;
+  cursor: not-allowed;
+}
+
+button.primary {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary-light);
+}
+
+button.success {
+  background-color: var(--color-success);
+  border-color: var(--color-success-light);
+}
+
+button.error {
+  background-color: var(--color-error);
+  border-color: var(--color-error-light);
+}
+
+button.warning {
+  background-color: var(--color-warning);
+  border-color: var(--color-warning-light);
+  color: #000;
+}
+
+.notification {
+  margin: 1rem 0;
+  padding: 1rem 2rem;
+  border-radius: 5px;
+  box-shadow: 5px 5px 20px var(--color-shadow);
+}
+
+.notification.error,
+.notification.error code {
+  background-color: var(--color-error-light);
+  color: #fff;
+}
+
+.notification.warning,
+.notification.warning code {
+  background-color: var(--color-warning-light);
+}
+
+.notification.success,
+.notification.success code {
+  background-color: var(--color-success-light);
+  color: #fff;
+}
+
+.notification.primary,
+.notification.primary code {
+  background-color: var(--color-primary);
+  color: #fff;
+}
+
+.tag {
+  vertical-align: middle;
+  font-size: 0.9rem;
+  font-weight: normal;
+  background-color: var(--color-bg-dark);
+  color: var(--color-text);
+  padding: 0.2em 0.5em;
+  border-radius: 4px;
+  margin: 0.3em;
+  text-wrap: nowrap;
+  display: inline-block;
+}
+
+.tag.primary {
+  background-color: var(--color-primary);
+  color: #fff;
+}
+
+.tag.success {
+  background-color: var(--color-success);
+  color: #fff;
+}
+
+.tag.error {
+  background-color: var(--color-error);
+  color: #fff;
+}
+
+.tag.warning {
+  background-color: var(--color-warning);
+  color: #000;
+}
+
+code {
+  color: var(--color-text-code);
+}
+
+pre {
+  padding: 1rem;
+
+  border: 1px solid var(--color-code-bg);
+  background-color: var(--color-code-bg);
+  border-radius: 5px;
+
+  text-wrap: wrap;
+  word-wrap: break-word;
+}
+
+pre>code {
+  color: var(--color-code-text);
+}
+
+
+.github-tagged::before {
+  content: '';
+  display: inline-block;
+  height: 1.2rem;
+  margin-right: 0.2em;
+  background-repeat: no-repeat;
+  background-size: contain;
+  vertical-align: middle;
+  background-image: url('/assets/github-mark.svg');
+  aspect-ratio: 1;
+}
+
+.github-tagged.inverted::before {
+  background-image: url('/assets/github-mark-white.svg');
+}
+
+@media (prefers-color-scheme: dark) {
+  .github-tagged::before {
+    background-image: url('/assets/github-mark-white.svg');
+  }
+
+  .github-tagged.inverted::before {
+    background-image: url('/assets/github-mark.svg');
+  }
+}

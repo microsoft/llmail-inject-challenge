@@ -1,0 +1,47 @@
+/* semantic color variables for this project */
+:root {
+  --color-bg: #fff;
+  --color-bg-dark: #f0f0f0;
+  --color-border: #ddd;
+  --color-text: #333;
+  --color-text-code: rgba(186, 31, 7, 0.718);
+
+  --color-primary: #0171cc;
+  --color-primary-dark: #0561ac;
+  --color-primary-light: #028ffc;
+
+  --color-error: #ca0000;
+  --color-error-light: #ca0000f0;
+
+  --color-warning: #ffaa0e;
+  --color-warning-light: #ffaa0eb7;
+
+  --color-success: #017b24;
+  --color-success-light: #017b24b7;
+
+  --color-disabled: #ccc;
+  --color-disabled-light: #aaa;
+
+  --color-shadow: rgba(0, 0, 0, 0.4);
+
+  --color-code-bg: #222;
+  --color-code-text: #fff;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #222;
+    --color-bg-dark: #181818;
+    --color-border: #666;
+    --color-text: #fff;
+  }
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}

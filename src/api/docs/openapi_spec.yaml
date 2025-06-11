@@ -1,0 +1,500 @@
+openapi: 3.0.0
+info:
+  title: LLMail Inject
+  description: |-
+    This API is designed for the LLMail Inject competition.
+    It facilitates the management of teams, job submissions, and job updates. 
+
+    Participants can use this API to create teams, manage team members, submit jobs,
+    and retrieve job status updates during the competition.
+
+    The API handles essential competition tasks such as rate limiting, job processing,
+    and secure team management for participants.
+  version: 0.0.0
+tags:
+  - name: Jobs
+  - name: Teams
+  - name: Scenarios
+  - name: Leaderboards
+paths:
+  /api/leaderboard:
+    get:
+      operationId: Leaderboards_list
+      description: Gets the current leaderboard ranking the top performing teams in the competition.
+      parameters: []
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Leaderboard'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      tags:
+        - Leaderboards
+  /api/scenarios:
+    get:
+      operationId: Scenarios_list
+      description: |-
+        Gets a list of all scenarios available for the competition participants
+        to attempt.
+      parameters: []
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Scenario'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      tags:
+        - Scenarios
+  /api/teams:
+    get:
+      operationId: Teams_list
+      description: Gets a list of all teams participating in the competition.
+      parameters: []
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Team'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      tags:
+        - Teams
+    post:
+      operationId: Teams_create
+      description: |-
+        Creates a new team for the competition. Must be executed by a user who is
+        not yet a member of a team and requires that the team name is globally unique.
+      parameters: []
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Team'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      tags:
+        - Teams
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TeamCreate'
+      security:
+        - BearerAuth: []
+  /api/teams/{team_id}:
+    get:
+      operationId: Teams_read
+      description: Gets the details of a specific team participating in the competition.
+      parameters:
+        - name: team_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Team'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      tags:
+        - Teams
+      security:
+        - BearerAuth: []
+    patch:
+      operationId: Teams_update
+      description: |-
+        Updates the details of a specific team participating in the competition,
+        allowing changes to the list of GitHub users who are members of the team.
+      parameters:
+        - $ref: '#/components/parameters/Team.team_id'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Team'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      tags:
+        - Teams
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TeamUpdate'
+      security:
+        - BearerAuth: []
+  /api/teams/{team_id}/jobs:
+    get:
+      operationId: Jobs_list
+      description: Gets a list of all jobs submitted by a team.
+      parameters:
+        - name: team_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Job'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      tags:
+        - Jobs
+      security:
+        - BearerAuth: []
+    post:
+      operationId: Jobs_create
+      description: |-
+        Submits a new job for a specific scenario and prompt,
+        attempting to solve the given scenario.
+      parameters:
+        - $ref: '#/components/parameters/Job.team_id'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Job'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      tags:
+        - Jobs
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JobCreate'
+      security:
+        - BearerAuth: []
+  /api/teams/{team_id}/jobs/{job_id}:
+    get:
+      operationId: Jobs_read
+      description: Gets the details of a specific job submitted by a team.
+      parameters:
+        - name: team_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Job'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      tags:
+        - Jobs
+      security:
+        - BearerAuth: []
+components:
+  parameters:
+    Job.team_id:
+      name: team_id
+      in: path
+      required: true
+      description: The ID of the team which submitted the job.
+      schema:
+        type: string
+    Team.team_id:
+      name: team_id
+      in: path
+      required: true
+      description: The ID of the team, which is unique across all teams.
+      schema:
+        type: string
+  schemas:
+    Error:
+      type: object
+      required:
+        - message
+        - advice
+        - trace_id
+      properties:
+        message:
+          type: string
+          description: A human-readable message describing the error that occurred.
+          readOnly: true
+        advice:
+          type: string
+          description: Advice on how to resolve the error or what to do next.
+          readOnly: true
+        trace_id:
+          type: string
+          description: A unique trace ID which can be used to report the error to the competition organizers.
+          readOnly: true
+      description: The format of an error returned by the API.
+    Job:
+      type: object
+      required:
+        - scenario
+        - subject
+        - body
+        - team_id
+        - job_id
+        - scheduled_time
+      properties:
+        scenario:
+          type: string
+          description: |-
+            The scenario that the job is attempting to solve.
+
+            This should correspond to the `scenario_id` of a scenario in the Scenarios API.
+        subject:
+          type: string
+          description: The subject of the email.
+        body:
+          type: string
+          description: The body of the email.
+        team_id:
+          type: string
+          description: The ID of the team which submitted the job.
+        job_id:
+          type: string
+          description: The ID of the job submission.
+          readOnly: true
+        scheduled_time:
+          type: string
+          format: date-time
+          description: The time at which the job was submitted.
+          readOnly: true
+        output:
+          type: string
+          description: |-
+            The output generated by the job, once it has completed execution.
+
+            This field will only be populated once the job has completed execution.
+          readOnly: true
+        objectives:
+          type: object
+          additionalProperties:
+            type: boolean
+          description: |-
+            The status of each of the scenario's objectives, once the job has completed.
+            A successful submission will have all objectives reported as `true`.
+
+            This field will only be populated once the job has completed execution.
+          readOnly: true
+        started_time:
+          type: string
+          format: date-time
+          description: |-
+            The time at which the job execution was started on the backend.
+
+            This field will only be populated once the job has completed execution.
+          readOnly: true
+        completed_time:
+          type: string
+          format: date-time
+          description: |-
+            The time at which the job execution was completed on the backend.
+
+            This field will only be populated once the job has completed execution.
+          readOnly: true
+      description: The details of a job submitted by a team for a specific scenario and prompt.
+    JobCreate:
+      type: object
+      required:
+        - scenario
+        - subject
+        - body
+      properties:
+        scenario:
+          type: string
+          description: |-
+            The scenario that the job is attempting to solve.
+
+            This should correspond to the `scenario_id` of a scenario in the Scenarios API.
+        subject:
+          type: string
+          description: The subject of the email.
+        body:
+          type: string
+          description: The body of the email.
+      description: The details of a job submitted by a team for a specific scenario and prompt.
+    Leaderboard:
+      type: object
+      required:
+        - teams
+        - last_updated
+      properties:
+        teams:
+          type: array
+          items:
+            type: string
+          description: The ordered list of team IDs based on their relative scores.
+        last_updated:
+          type: string
+          format: date-time
+          description: The time at which the leaderboard was last updated.
+      description: |-
+        A leaderboard which ranks the top performing teams in the competition based
+        on the number, difficulty, and relative ordering of scenarios they have solved
+        in the competition.
+    Scenario:
+      type: object
+      required:
+        - scenario_id
+        - name
+        - description
+        - objectives
+        - metadata
+      properties:
+        scenario_id:
+          type: string
+          description: The ID of the scenario, which is unique across all scenarios.
+        name:
+          type: string
+          description: The human readable name of the scenario.
+        description:
+          type: string
+          description: A description of the scenario and the objectives that the attacker must achieve.
+        objectives:
+          type: array
+          items:
+            type: string
+          description: The list of objectives that the attacker must achieve to successfully solve the scenario.
+        metadata:
+          type: object
+          additionalProperties:
+            type: string
+          description: Additional metadata describing the scenario, such as the model used, the defences in place, etc.
+      description: The details of a scenario available for competition participants to attempt.
+    Team:
+      type: object
+      required:
+        - team_id
+        - name
+        - members
+        - solved_scenarios
+        - score
+      properties:
+        team_id:
+          type: string
+          description: The ID of the team, which is unique across all teams.
+        name:
+          type: string
+          description: The human readable name of the team. Must be unique across all teams.
+        members:
+          type: array
+          items:
+            type: string
+          description: The list of GitHub usernames of the team members.
+        solved_scenarios:
+          type: array
+          items:
+            type: string
+          description: The list of scenarios that the team has successfully solved.
+          readOnly: true
+        score:
+          type: integer
+          format: int32
+          description: |-
+            The score of the team, computed based on the number of scenarios solved and the
+            number of other teams that have solved them.
+          readOnly: true
+      description: The details of a team participating in the competition.
+    TeamCreate:
+      type: object
+      required:
+        - name
+        - members
+      properties:
+        name:
+          type: string
+          description: The human readable name of the team. Must be unique across all teams.
+        members:
+          type: array
+          items:
+            type: string
+          description: The list of GitHub usernames of the team members.
+      description: The details of a team participating in the competition.
+    TeamUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The human readable name of the team. Must be unique across all teams.
+        members:
+          type: array
+          items:
+            type: string
+          description: The list of GitHub usernames of the team members.
+      description: The details of a team participating in the competition.
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
